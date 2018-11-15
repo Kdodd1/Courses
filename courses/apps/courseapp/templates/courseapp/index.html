@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Courses</title>
+</div><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>Add a new course</h1>
+		<form action="/process" method="POST">
+			{% csrf_token %}
+		  <div class="form-group">
+		    <label for="formGroupExampleInput">Name: </label>
+		    <input type="text" class="form-control" name="name" id="formGroupExampleInput" placeholder="Name">
+		  </div>
+		  <div class="form-group">
+		    <label for="exampleFormControlTextarea1">Example textarea</label>
+		    <textarea class="form-control" id="exampleFormControlTextarea1" name="description"rows="3"></textarea>
+		  </div>
+		  	{% if messages %}
+	    		{% for message in messages %}
+	    		<p class="message">{{message}}</p>
+	    		{% endfor %}
+	   	 	{% endif %}
+		  <button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+		<h1>Courses:</h1>
+		<table class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">Course Name</th>
+		      <th scope="col">Description</th>
+		      <th scope="col">Date Added</th>
+		      <th scope="col">Actions</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		{% for course in courses %}
+		    <tr>
+		      <td>{{course.name}}</td>
+		     {% for description in descriptions %}
+		   	{% if description.courseDesc_id == course.id %}
+		      <td>{{description.description}}</td>
+		    {% endif %}
+		    {% endfor %}
+		      <td>{{course.created_at}}</td>
+		      <td><a href="course/{{course.id}}">Remove</a></td>
+		    </tr>
+
+		{% endfor %}
+		  </tbody>
+		</table>
+	</div>
+
+</body>
+</html>
